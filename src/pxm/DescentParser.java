@@ -14,10 +14,8 @@ import java.util.Scanner;
   U -> + | -
   L -> D | DL
   D -> 0 | 1 | ... | 8 | 9
-*/
-
-
-import java.util.Scanner;
+*/import static pxm.ExpressionCalc.RPNtoDouble;
+import static pxm.ExpressionCalc.infixToRPN;
 
 public class DescentParser {
     private static String line; //Daria Viktorovna izvinite pozhaluysta
@@ -128,6 +126,7 @@ public class DescentParser {
         Scanner sc = new Scanner(System.in);
         boolean preCheck = true;
         boolean tmpCheck = false;
+        String formula;
         List<Character> usedChars =  Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9','(',')','+','-','/','*',' ');
         line = sc.nextLine();
 
@@ -145,12 +144,27 @@ public class DescentParser {
             }
         }
 
-
         i = 0;
-
         line = line + " ";
-        if(A() && preCheck) System.out.println("Ништяк");
-        else System.out.println("Отстой");
+        formula = "";
+        if(A() && preCheck && i >= line.length() - 1)
+        {
+            System.out.println("Correct expression");
+            //formula = line;
+            for(int k = 0; k < line.length(); k++)
+                formula = formula + line.charAt(k) + " ";
+            String[] input = formula.split(" ");
+            String[] output = infixToRPN(input);
+            // From Polyak ssany to human view
+            Double result = RPNtoDouble(output);
+            System.out.print("\n" + result);
+            //System.out.println(formula);
+        }
+        else System.out.println("Uncorrect expression");
+
+
+
+
 
 
     }
